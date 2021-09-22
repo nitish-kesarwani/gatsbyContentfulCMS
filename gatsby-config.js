@@ -137,7 +137,8 @@ module.exports = {
       resolve: `gatsby-source-contentful`,
       options: {
         spaceId:'jblsldl8k9w8',
-        accessToken: process?.env?.CONTENTFUL_ACCESS_TOKEN
+        accessToken: 'H52kGI5tARy5PFt7WqK-fWvz0elf6hQxWJQTu1MnSFM'
+        // accessToken: process?.env?.CONTENTFUL_ACCESS_TOKEN
       }
     },
     `@contentful/gatsby-transformer-contentful-richtext`,
