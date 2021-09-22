@@ -6,13 +6,13 @@ import Layout from "../components/layout"
 import Seo from "../components/seo"
 import Img from 'gatsby-image'
 
-const BlogPostTemplate = ({ data, location }) => {
-  const post = data.contentfulBlog
-  const siteTitle = data.site.siteMetadata?.title || `Title`
-  const { previous, next } = data
+const BlogPostTemplate = (props) => {
+  const post = props.data.contentfulBlog
+  const siteTitle = props.data.site.siteMetadata?.title || `Title`
+  const { previous, next } = props?.pageContext
   const date = new Date(post?.publishedDate)?.toLocaleDateString()
   return (
-    <Layout location={location} title={siteTitle}>
+    <Layout location={props.location} title={siteTitle}>
       <Seo
         title={post.title}
         description={post.subtitle}
@@ -50,14 +50,14 @@ const BlogPostTemplate = ({ data, location }) => {
         >
           <li>
             {previous && (
-              <Link to={previous.slug} rel="prev">
+              <Link to={`/${previous.slug}`} rel="prev">
                 ← {previous.title}
               </Link>
             )}
           </li>
           <li>
             {next && (
-              <Link to={next.slug} rel="next">
+              <Link to={`/${next.slug}`} rel="next">
                 {next.title} →
               </Link>
             )}
