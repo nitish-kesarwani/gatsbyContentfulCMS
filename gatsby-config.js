@@ -1,9 +1,15 @@
+const dotenv = require('dotenv')
+
+if(process?.env?.NODE_ENV !== 'production'){
+  dotenv.config()
+}
+
 module.exports = {
   siteMetadata: {
-    title: `Gatsby Starter Blog`,
+    title: `Mediavalet Contentful CMS`,
     author: {
-      name: `Kyle Mathews`,
-      summary: `who lives and works in San Francisco building useful things.`,
+      name: `Nitish Kesarwani`,
+      summary: `who lives and works in Delhi building useful things.`,
     },
     description: `A starter blog demonstrating what Gatsby can do.`,
     siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
@@ -127,5 +133,13 @@ module.exports = {
     // this (optional) plugin enables Progressive Web App + Offline functionality
     // To learn more, visit: https://gatsby.dev/offline
     // `gatsby-plugin-offline`,
+    {
+      resolve: `gatsby-source-contentful`,
+      options: {
+        spaceId:'jblsldl8k9w8',
+        accessToken: process?.env?.CONTENTFUL_ACCESS_TOKEN
+      }
+    },
+    `@contentful/gatsby-transformer-contentful-richtext`,
   ],
 }

@@ -4,11 +4,12 @@ import { Link, graphql } from "gatsby"
 import Bio from "../components/bio"
 import Layout from "../components/layout"
 import Seo from "../components/seo"
+import Img from 'gatsby-image'
 
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
-  const posts = data.allMarkdownRemark.nodes
-
+  const posts = data.allContentfulBlog.edges
+  console.log('posts', posts)
   if (posts.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
@@ -28,11 +29,11 @@ const BlogIndex = ({ data, location }) => {
       <Seo title="All posts" />
       <Bio />
       <ol style={{ listStyle: `none` }}>
-        {posts.map(post => {
-          const title = post.frontmatter.title || post.fields.slug
+        {posts.map(({node}, index) => {
+          const title = node?.title || node?.slug
 
           return (
-            <li key={post.fields.slug}>
+            <li key={node?.slug}>
               <article
                 className="post-list-item"
                 itemScope
@@ -40,19 +41,23 @@ const BlogIndex = ({ data, location }) => {
               >
                 <header>
                   <h2>
-                    <Link to={post.fields.slug} itemProp="url">
-                      <span itemProp="headline">{title}</span>
+                    <Link to={node?.slug} itemProp="url">
+                      <span itemProp="headline">{++index})&nbsp;{title}</span>
                     </Link>
                   </h2>
-                  <small>{post.frontmatter.date}</small>
+                  <Img fluid={node?.image?.fluid} style={{margin:'30px 0'}} />
+                  <div style={{display:'flex',justifyContent:'space-between'}}>
+                    <small>{new Date(node?.publishedDate)?.toLocaleDateString()}</small>
+                    <small> Author: {node?.author}</small>
+                  </div>
                 </header>
                 <section>
-                  <p
+                  {/* <p
                     dangerouslySetInnerHTML={{
-                      __html: post.frontmatter.description || post.excerpt,
+                      __html: post.content.raw,
                     }}
                     itemProp="description"
-                  />
+                  /> */}
                 </section>
               </article>
             </li>
@@ -72,16 +77,19 @@ export const pageQuery = graphql`
         title
       }
     }
-    allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
-      nodes {
-        excerpt
-        fields {
-          slug
-        }
-        frontmatter {
-          date(formatString: "MMMM DD, YYYY")
+    allContentfulBlog {
+      edges {
+        node {
           title
-          description
+          subtitle
+          author
+          slug
+          publishedDate
+          image {
+            fluid {
+              ...GatsbyContentfulFluid
+            }
+          }
         }
       }
     }
