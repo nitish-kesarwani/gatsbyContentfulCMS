@@ -1,8 +1,8 @@
-const dotenv = require('dotenv')
+// const dotenv = require('dotenv')
 
-if(process?.env?.NODE_ENV !== 'production'){
-  dotenv.config()
-}
+// if(process?.env?.NODE_ENV !== 'production'){
+//   dotenv.config()
+// }
 
 module.exports = {
   siteMetadata: {
@@ -138,9 +138,9 @@ module.exports = {
       options: {
         spaceId:'jblsldl8k9w8',
         accessToken: 'H52kGI5tARy5PFt7WqK-fWvz0elf6hQxWJQTu1MnSFM'
-        // accessToken: process?.env?.CONTENTFUL_ACCESS_TOKEN
       }
     },
     `@contentful/gatsby-transformer-contentful-richtext`,
   ],
 }
+// accessToken: process?.env?.CONTENTFUL_ACCESS_TOKEN
